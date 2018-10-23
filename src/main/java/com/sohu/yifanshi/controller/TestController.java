@@ -3,6 +3,7 @@ package com.sohu.yifanshi.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.sohu.yifanshi.entity.ScCar;
 import com.sohu.yifanshi.service.CarService4Manager;
+import com.sohu.yifanshi.util.JedisUtil;
 import com.sohu.yifanshi.util.RedisCacheManager;
 import com.sohu.yifanshi.web.CarVo;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class TestController {
     private CarService4Manager carService4Manager;
     @Autowired
     private RedisCacheManager redisCacheManager;
+    @Autowired
+    private JedisUtil jedisUtil;
 
     @RequestMapping("/hello")
     public String hello(ModelMap modelMap)
@@ -48,12 +52,22 @@ public class TestController {
         scCar1.setId(90);
         JSONObject jsonObject1 = (JSONObject) JSONObject.toJSON(scCar1);
         try {
-            redisCacheManager.getRedisTemplate().opsForValue().set("jsonObject1",jsonObject1);
+            redisCacheManager.getRedisTemplate().opsForValue().set("jsonObject1",jsonObject1.toJSONString());
         }catch (Exception e)
         {
-            logger.error("cached error");
+            logger.error("redisTemplate cached error");
             return "cached error";
         }
+        try
+        {
+            Jedis jedis = jedisUtil.getResource();
+            jedis.set("jsonObject2",jsonObject1.toJSONString());
+        }catch (Exception e)
+        {
+            logger.error("jedisPool cached error");
+            return "cached error";
+        }
+
 
         return "cached successfully";
     }
