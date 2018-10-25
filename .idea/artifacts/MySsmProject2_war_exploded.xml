@@ -54,6 +54,7 @@
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.47" />
         </element>
       </element>
+      <element id="library" level="project" name="Maven: com.dyuproject.protostuff:protostuff-collectionschema:1.0.8" />
       <element id="javaee-facet-resources" facet="MySsmProject2/web/Web" />
     </root>
   </artifact>

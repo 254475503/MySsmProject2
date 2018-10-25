@@ -6,4 +6,7 @@
     <select id="getAllCar" resultType="carvo">
         select * from sc_car order  by  id  desc limit 1,50000;
     </select>
+    <select id="getCarById" resultType="carvo" parameterType="INTEGER">
+        select * from sc_car where id = #{id};
+    </select>
 </mapper>
