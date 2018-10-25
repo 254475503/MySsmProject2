@@ -15,4 +15,9 @@ public class CarService4ManagerImpl implements CarService4Manager {
     public List<CarVo> getAllCar() {
         return carDao4Manger.getAllCar();
     }
+
+    @Override
+    public CarVo getCarById(Integer id) {
+        return carDao4Manger.getCarById(id);
+    }
 }
